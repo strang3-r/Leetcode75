@@ -1,0 +1,23 @@
+[
+	{
+		"correct_answers":
+		[
+			"3\n\nTime : 0.000804 s \n\nCoded By : S!r Black-D3vil"
+		],
+		"test": "6\n1 7 3 6 5 6\n"
+	},
+	{
+		"correct_answers":
+		[
+			"-1\n\nTime : 0.000160 s \n\nCoded By : S!r Black-D3vil"
+		],
+		"test": "3\n1 2 3\n"
+	},
+	{
+		"correct_answers":
+		[
+			"0\n\nTime : 0.000196 s \n\nCoded By : S!r Black-D3vil"
+		],
+		"test": "3\n2 1 -1\n"
+	}
+]
