@@ -52,48 +52,8 @@ void file_i_o(){
  */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-      ListNode *finalHead = NULL, *finalTail = NULL;
-
-      if(list1 == NULL) return list2;
-      if(list2 == NULL) return list1;
-
-      while(list1 != NULL and list2 != NULL){
-	      	if(finalHead == NULL and finalTail == NULL){
-		      	if(list1->val > list2->val){
-		      		finalHead = list2;
-		      		finalTail = list2;
-		      		list2 = list2->next;
-		      	}
-		      	else{
-		      		finalHead = list1;
-		      		finalTail = list1;
-		      		list1 = list1->next;
-		      	}
-		      } 
-		      else{
-			      	if(list1->val  < list2->val){
-					    	finalTail->next = list1;
-					    	finalTail = finalTail->next;
-					    	list1 = list1->next;
-					    }
-					    else{
-					    	finalTail->next = list2;
-					    	finalTail = finalTail->next;
-					    	list2 = list2->next;
-					    }
-		      }
-		    
-        }
-
-        if(list1 != NULL){
-        	finalTail -> next = list1;
-        }
-        if(list2 != NULL) {
-        	finalTail -> next = list2;
-        }
-
-        return finalHead;
+    ListNode* reverseList(ListNode* head) {
+        
     }
 };
 
