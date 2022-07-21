@@ -15,6 +15,7 @@ using namespace std;
 #define pii                pair<ll, ll>
 #define vi                 vector<ll>
 #define mii                map<ll, ll>
+#define ump                unordered_map<ll, ll>
 #define pqb                priority_queue<ll>
 #define pqs                priority_queue<int, vi, greater<ll> >
 #define setbits(x)         __builtin_popcountll(x)
@@ -39,30 +40,37 @@ void file_i_o(){
 }
 
 
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
-    vector<vector<int>> generate(int numRows) {
-        vector<vector<int>>rows(numRows);
-        for(int i = 0; i < numRows; i++) {
-        	for(int j = 0; j <= i; j++) {
-        		rows[i].push_back(j > 0 and j < i ? rows[i-1][j] + rows[i-1][j-1] : 1);
-        	}
-        }
-
-        return rows;
-    } 
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        
+    }
 };
 
 
-int main(int argc, char const *argv[])
-{
+
+int main(int argc, char const *argv[]) {
 
 	file_i_o();
 
 	clock_t start, end;
     start = clock();
 
-		
+	w(t){
+
+	/*  Write Code Here  */
+
+	}
 
 	end = clock();
 	

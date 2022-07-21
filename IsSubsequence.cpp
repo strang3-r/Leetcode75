@@ -15,6 +15,7 @@ using namespace std;
 #define pii                pair<ll, ll>
 #define vi                 vector<ll>
 #define mii                map<ll, ll>
+#define ump                unordered_map<ll, ll>
 #define pqb                priority_queue<ll>
 #define pqs                priority_queue<int, vi, greater<ll> >
 #define setbits(x)         __builtin_popcountll(x)
@@ -41,17 +42,54 @@ void file_i_o(){
 
 class Solution {
 public:
-    vector<vector<int>> generate(int numRows) {
-        vector<vector<int>>rows(numRows);
-        for(int i = 0; i < numRows; i++) {
-        	for(int j = 0; j <= i; j++) {
-        		rows[i].push_back(j > 0 and j < i ? rows[i-1][j] + rows[i-1][j-1] : 1);
-        	}
-        }
+    // bool isSubsequence(string s, string t) {
+  		// if(s == "") return true;
+  		// if(t == "") return false;
 
-        return rows;
-    } 
+  		// if(s.size() == 1 and t.size() == 1) return s[0] == t[0];
+
+  		// int a = 0;
+
+  		// for(int i = 0; i < t.size(); i++){
+  		// 	if(s[a] == t[i])
+  		// 		a += 1;
+  		// } 
+
+
+  		// if(a == s.size()) return true;
+
+  		// else
+  		// 	return false;
+    // }
+
+
+		bool isSubsequence(string s, string t) {
+			unordered_map<char, vector<int>> hg;
+
+			for(int i = 0; i < t.length(); i++) {
+				hg[t[i]].push_back(i);
+			}
+
+			int prev = -1;
+
+			for(auto c : s) {
+				auto it = hg.find(c);
+				if(it == hg.end())
+					return false;
+				auto vec = it->second;
+				int pos = upper_bound(vec.begin(), vec.end(), prev) - vec.begin();
+				if(pos == vec.size()) return false;
+
+				prev = vec[pos];
+			}
+
+			return true;
+		}
+
+
 };
+
+
 
 
 int main(int argc, char const *argv[])
@@ -62,7 +100,20 @@ int main(int argc, char const *argv[])
 	clock_t start, end;
     start = clock();
 
-		
+	
+	string s, t;
+
+	getline(cin, s);
+	getline(cin, t);
+
+	// cin >> s >> t;
+
+	Solution ans;
+
+	bool result = ans.isSubsequence(s, t);
+
+	cout << result << end;
+
 
 	end = clock();
 	

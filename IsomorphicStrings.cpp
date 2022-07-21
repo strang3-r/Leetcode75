@@ -41,17 +41,40 @@ void file_i_o(){
 
 class Solution {
 public:
-    vector<vector<int>> generate(int numRows) {
-        vector<vector<int>>rows(numRows);
-        for(int i = 0; i < numRows; i++) {
-        	for(int j = 0; j <= i; j++) {
-        		rows[i].push_back(j > 0 and j < i ? rows[i-1][j] + rows[i-1][j-1] : 1);
-        	}
-        }
+   //  bool isIsomorphic(string s, string t) {
+  	// 	int seen[128] = {};
+  	// 	for(int i = 0; i < s.size(); i++){
+  	// 		char c = s[i];
+  	// 		if(not seen[c]){
+  	// 			for(char k : seen){
+  	// 				if(k == t[i])
+  	// 					return false;
+  	// 			}
+			// 	seen[c] = t[i];
+  	// 		}
+			// else if(seen[c] != t[i])
+			// 	return false;
+  	// 	}      
+  	// 	return true;
+   //  }
 
-        return rows;
-    } 
+
+	bool isIsomorphic(string s, string t) {
+		char map_s[128] = {0};
+		char map_t[128] = {0};
+
+		for(int i = 0; i < s.size(); i++) {
+			if(map_s[s[i]] != map_t[t[i]]) return false;
+			map_s[s[i]] = i+1;
+			map_t[t[i]] = i+1;
+		}
+
+		return true;
+	}
+
+
 };
+
 
 
 int main(int argc, char const *argv[])
@@ -62,7 +85,20 @@ int main(int argc, char const *argv[])
 	clock_t start, end;
     start = clock();
 
-		
+	string s, t;
+
+	getline(cin, s);
+	getline(cin, t);
+
+	Solution ans;
+
+	bool result = ans.isIsomorphic(s, t);
+
+	if(result)
+		cout << "true" << endl;
+	else
+		cout << "false" << endl;
+
 
 	end = clock();
 	

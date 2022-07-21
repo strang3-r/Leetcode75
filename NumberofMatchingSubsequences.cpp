@@ -39,19 +39,38 @@ void file_i_o(){
 }
 
 
+
 class Solution {
 public:
-    vector<vector<int>> generate(int numRows) {
-        vector<vector<int>>rows(numRows);
-        for(int i = 0; i < numRows; i++) {
-        	for(int j = 0; j <= i; j++) {
-        		rows[i].push_back(j > 0 and j < i ? rows[i-1][j] + rows[i-1][j-1] : 1);
-        	}
-        }
+    int numMatchingSubseq(string s, vector<string>& words) {
+      vector<vector<int>> charIndexes(26);
+      for(int i = 0; i < s.size(); i++) {
+      	charIndexes[s[i] - 'a'].push_back(i);
+      }  
+      int count = 0;
 
-        return rows;
-    } 
+      for(int i = 0; i < words.size(); i++){
+		bool isSubseq = true;
+		int lastCharIndex = -1;
+
+		for(char w : words[i]) {
+			auto it = upper_bound(charIndexes[w - 'a'].begin(), charIndexes[w - 'a'].end(), lastCharIndex);
+			if(it == charIndexes[w - 'a'].end()){
+				isSubseq = false;
+				break;
+			}
+			else {
+				lastCharIndex = *it;
+			}
+		}      	
+		if(isSubseq)
+			count++;
+      }
+
+      return count;
+    }
 };
+
 
 
 int main(int argc, char const *argv[])
@@ -62,7 +81,24 @@ int main(int argc, char const *argv[])
 	clock_t start, end;
     start = clock();
 
-		
+
+    int nums;
+
+    cin >> nums;
+
+	string s;
+	vector<string> words(nums);
+
+	cin >> s;
+	for(int i = 0; i < words.size(); i++){
+		cin >> words[i];		
+	}
+
+	Solution ans;
+
+	int result = ans.numMatchingSubseq(s, words);
+
+	cout << result << endl;
 
 	end = clock();
 	
