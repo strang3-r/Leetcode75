@@ -39,57 +39,67 @@ void file_i_o(){
 	#endif */
 }
 
+// Brute Force Approach
+vector<int> maxXorQueries(vector<int> &arr, vector<vector<int> >&queries) {
+	int n = arr.size();
+	int m = queries.size();
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
-public:
-    // ListNode* reverseList(ListNode* head) {
-    //     if(not head or not head->next){
-    //     	return head;
-    //     }
-    //     ListNode *prev = NULL;
-    //     ListNode *curr = head;
-    //     ListNode *next = head->next;
+	vector<int> result(m, -1);
 
-
-    //     while(next){
-    //     	curr->next = prev;
-    //     	prev = curr;
-    //     	curr = next;
-    //     	next = next->next;
-    //     }
-
-    //     curr->next = prev;
-
-    //     return curr;
-
-    // }
-
-
-	ListNode* reverseList(ListNode* head) {
-		if(not head or not head->next) return head;
-
-		auto ans = reverseList(head -> next);
-		head -> next -> next = head;
-		head->next = NULL;
-
-		return ans;
+	for(int i = 0; i < m; i++) {
+		for(int j = 0; j < n; j++){
+			if(arr[i] <= queries[i][1])
+				result[i] = max(result[i], arr[j]^queries[i][0]);
+		}
 	}
 
-};
+	return result;
+}
+
+// optimized solution
+
+vector<int> maxXorQueries(vector<int> &arr, vector<vector<int>> &queries) {
+	int m = queries.size();
+	vector<int> result(m, -1);
+
+	sort(arr.begin(), arr.end());
+
+	for(int i = 0; i < m; i++){
+		if(queries[i][1] < arr[0])
+			continue;
+		int left = 0;
+		int right = upper_bound(arr.begin(), arr.end(), queries[i][1]) - arr.begin();
+		int ans = 0;
+		int cur = 0;
+
+		for(int j = 30; j >= 0; j--){
+			if(queries[i][0] & (1 << j)) {
+				if(not(arr[left] & (1 << j))){
+					ans = ans | (1 << j);
+					right = lower_bound(begin() + left, arr.begin() + right, cur + (1 << j)) - arr.begin();
+				}
+				else{
+					cur = cur | (1 << j);
+				}
+			}
+			else {
+				if(arr[right - 1] & (1 << j)) {
+					ans = ans | (1 << j);
+					cur = cur | (1 << j);
+					left = lower_bound(begin() + left, arr.begin() + right, cur) - arr.begin();
+				}
+			}
+		}
+
+		result[i] = ans;
+	}
+
+	return result;
+}
 
 
-
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[])
+{
 
 	file_i_o();
 

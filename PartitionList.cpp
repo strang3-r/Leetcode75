@@ -52,44 +52,21 @@ void file_i_o(){
  */
 class Solution {
 public:
-    // ListNode* reverseList(ListNode* head) {
-    //     if(not head or not head->next){
-    //     	return head;
-    //     }
-    //     ListNode *prev = NULL;
-    //     ListNode *curr = head;
-    //     ListNode *next = head->next;
-
-
-    //     while(next){
-    //     	curr->next = prev;
-    //     	prev = curr;
-    //     	curr = next;
-    //     	next = next->next;
-    //     }
-
-    //     curr->next = prev;
-
-    //     return curr;
-
-    // }
-
-
-	ListNode* reverseList(ListNode* head) {
-		if(not head or not head->next) return head;
-
-		auto ans = reverseList(head -> next);
-		head -> next -> next = head;
-		head->next = NULL;
-
-		return ans;
-	}
-
+    ListNode* partition(ListNode* head, int x) {
+        if(head == nullptr){
+        	return NULL;`
+        }
+        ListNode* smallerEle = new ListNode(-1);
+        
+    }
 };
 
 
 
-int main(int argc, char const *argv[]) {
+
+
+int main(int argc, char const *argv[])
+{
 
 	file_i_o();
 
