@@ -40,46 +40,47 @@ void file_i_o(){
 }
 
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
+
+
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
 class Solution {
 public:
-    ListNode* partition(ListNode* head, int x) {
-        if(head == nullptr){
-        	return NULL;
-        }
-        ListNode* smallerEle = new ListNode(-1);
-        ListNode* greaterEle = new ListNode(-1);
-        smallerEle -> next = head;
-        greaterEle -> next = head;
 
-         ListNode* smallerEleHead = smallerEle;
-         ListNode* greaterEleHead = greaterEle;
+	void preorderHelper(Node* root, vector<int> &toReturn){
+		toReturn.push_back(root->_val);
+		for(int i = 0; i < root->_children.size(); i++){
+			preorderHelper(root->_children[i], toReturn);
+		}
+	}
 
-         while(head != nullptr) {
-         	if(head->val < x) {
-         		smallerEle -> next = head;
-	         	smallerEle = smallerEle -> next;
-         	}
-         	else {
-         		greaterEle -> next = head;
-         		greaterEle = greaterEle->next;
-         	}
-         	head = head -> next;
-         }
+    vector<int> preorder(Node* root) {
+		vector<int> toReturn;
 
-         greaterEle -> next = nullptr;
-         smallerEle -> next = greaterEleHead -> next;
+		if(root == NULL)
+			return toReturn;
 
-         return smallerEleHead->next;
+		preorderHelper(root, toReturn);
+
+		return toReturn;
     }
 };
 
@@ -87,8 +88,7 @@ public:
 
 
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
 	file_i_o();
 

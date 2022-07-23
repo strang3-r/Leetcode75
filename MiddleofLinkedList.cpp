@@ -40,6 +40,7 @@ void file_i_o(){
 }
 
 
+
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -52,34 +53,15 @@ void file_i_o(){
  */
 class Solution {
 public:
-    ListNode* partition(ListNode* head, int x) {
-        if(head == nullptr){
-        	return NULL;
+    ListNode* middleNode(ListNode* head) {
+        ListNode *slow = head;
+        ListNode *fast = head;
+
+        while(fast != nullptr and fast->next != nullptr) {        	
+        	slow = slow -> next;
+        	fast = fast -> next -> next;
         }
-        ListNode* smallerEle = new ListNode(-1);
-        ListNode* greaterEle = new ListNode(-1);
-        smallerEle -> next = head;
-        greaterEle -> next = head;
-
-         ListNode* smallerEleHead = smallerEle;
-         ListNode* greaterEleHead = greaterEle;
-
-         while(head != nullptr) {
-         	if(head->val < x) {
-         		smallerEle -> next = head;
-	         	smallerEle = smallerEle -> next;
-         	}
-         	else {
-         		greaterEle -> next = head;
-         		greaterEle = greaterEle->next;
-         	}
-         	head = head -> next;
-         }
-
-         greaterEle -> next = nullptr;
-         smallerEle -> next = greaterEleHead -> next;
-
-         return smallerEleHead->next;
+        return slow;
     }
 };
 
@@ -87,8 +69,8 @@ public:
 
 
 
-int main(int argc, char const *argv[])
-{
+
+int main(int argc, char const *argv[]) {
 
 	file_i_o();
 

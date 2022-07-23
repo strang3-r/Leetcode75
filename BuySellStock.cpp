@@ -40,66 +40,45 @@ void file_i_o(){
 }
 
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
-    ListNode* partition(ListNode* head, int x) {
-        if(head == nullptr){
-        	return NULL;
-        }
-        ListNode* smallerEle = new ListNode(-1);
-        ListNode* greaterEle = new ListNode(-1);
-        smallerEle -> next = head;
-        greaterEle -> next = head;
+    int maxProfit(vector<int>& prices) {
+  		int maxProfit = 0;
+  		int minPrice = INT_MAX;
 
-         ListNode* smallerEleHead = smallerEle;
-         ListNode* greaterEleHead = greaterEle;
+  		for(int i = 0; i < prices.size(); i++){
+  			minPrice = min(minPrice, prices[i]);
+  			maxProfit = max(maxProfit, prices[i] - minPrice);
+  		}      
 
-         while(head != nullptr) {
-         	if(head->val < x) {
-         		smallerEle -> next = head;
-	         	smallerEle = smallerEle -> next;
-         	}
-         	else {
-         		greaterEle -> next = head;
-         		greaterEle = greaterEle->next;
-         	}
-         	head = head -> next;
-         }
-
-         greaterEle -> next = nullptr;
-         smallerEle -> next = greaterEleHead -> next;
-
-         return smallerEleHead->next;
+  		return maxProfit;
     }
 };
 
 
 
 
-
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
 	file_i_o();
 
 	clock_t start, end;
     start = clock();
 
-	w(t){
+	
+    int n;
+    cin >> n;
+    vector<int> prices(n);
 
-	/*  Write Code Here  */
+    for(auto i = 0; i < n; i++){
+    	cin >> prices[i];
+    }
 
-	}
+    Solution ans;
+
+    cout << ans.maxProfit(prices) << endl;
+
+
 
 	end = clock();
 	

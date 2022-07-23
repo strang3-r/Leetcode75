@@ -40,66 +40,47 @@ void file_i_o(){
 }
 
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
-    ListNode* partition(ListNode* head, int x) {
-        if(head == nullptr){
-        	return NULL;
-        }
-        ListNode* smallerEle = new ListNode(-1);
-        ListNode* greaterEle = new ListNode(-1);
-        smallerEle -> next = head;
-        greaterEle -> next = head;
+    int longestPalindrome(string s) {
+  		unordered_map<char, int> counts;
+  		for(char c : s) counts[c]++;
 
-         ListNode* smallerEleHead = smallerEle;
-         ListNode* greaterEleHead = greaterEle;
+  		int result = 0;
+  		bool odd_found = false;
+  		for(auto &c : counts) {
+  			if(c.second % 2 == 0) {
+  				result += c.second;
+  			}
+  			else {
+  				odd_found = true;
+  				result += c.second - 1;
+  			}
+  		}    
 
-         while(head != nullptr) {
-         	if(head->val < x) {
-         		smallerEle -> next = head;
-	         	smallerEle = smallerEle -> next;
-         	}
-         	else {
-         		greaterEle -> next = head;
-         		greaterEle = greaterEle->next;
-         	}
-         	head = head -> next;
-         }
-
-         greaterEle -> next = nullptr;
-         smallerEle -> next = greaterEleHead -> next;
-
-         return smallerEleHead->next;
+  		if(odd_found) result++;
+  		return result;  
     }
 };
 
 
 
-
-
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
 	file_i_o();
 
 	clock_t start, end;
     start = clock();
 
-	w(t){
+	
+    string s;
 
-	/*  Write Code Here  */
+    getline(cin, s);
 
-	}
+    Solution ans;
+
+    cout << ans.longestPalindrome(s) << end;
+
 
 	end = clock();
 	

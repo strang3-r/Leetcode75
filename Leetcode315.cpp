@@ -40,46 +40,66 @@ void file_i_o(){
 }
 
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
+
+
 class Solution {
 public:
-    ListNode* partition(ListNode* head, int x) {
-        if(head == nullptr){
-        	return NULL;
+
+	// Merge Sort
+
+
+	void merge(vector<pair<int, int>> &arr, vector<int>&count, int l, int mid, int r) {
+		vector<pair<int, int>> temp(r-l+1);
+
+		int i = l, j = mid+1, k = 0;
+
+		while(i <= mid and j <= r) {
+			if(arr[i].first <= arr[j].first)
+				temp[k++] = arr[j++];
+			else {
+				count[arr[i].second] += r-j+1;
+				temp[k++] = arr[i++];
+			}
+		}
+
+		while(i <= mid) {
+				temp[k++] = arr[i++];
+		}
+		while(j <= r) {
+			temp[k++] = arr[j++];
+		}
+
+		for(int x = l; x <= r; x++) {
+			arr[x] = temp[x-l];
+		}
+	}
+
+
+
+	void merge_sort(vector<pair<int, int>> &arr, vector<int> &count, int l, int r) {
+		if(l >= r) {
+			return;
+		}
+
+		int mid = (l+r)/2;
+		merge_sort(arr, count, l, mid);
+		merge_sort(arr, count, mid+1, r);
+		merge(arr, count, l, mid, r);
+
+	}
+
+
+
+    vector<int> countSmaller(vector<int>& nums) {
+        int n = nums.size();
+        vector<pair<int, int>> arr(n);
+        for(int i = 0; i < n; i++){
+        	arr[i] = {nums[i], i};
         }
-        ListNode* smallerEle = new ListNode(-1);
-        ListNode* greaterEle = new ListNode(-1);
-        smallerEle -> next = head;
-        greaterEle -> next = head;
+        vector<int> count(n, 0);
+        merge_sort(arr, count, 0, n-1);
 
-         ListNode* smallerEleHead = smallerEle;
-         ListNode* greaterEleHead = greaterEle;
-
-         while(head != nullptr) {
-         	if(head->val < x) {
-         		smallerEle -> next = head;
-	         	smallerEle = smallerEle -> next;
-         	}
-         	else {
-         		greaterEle -> next = head;
-         		greaterEle = greaterEle->next;
-         	}
-         	head = head -> next;
-         }
-
-         greaterEle -> next = nullptr;
-         smallerEle -> next = greaterEleHead -> next;
-
-         return smallerEleHead->next;
+        return count;
     }
 };
 
@@ -87,19 +107,35 @@ public:
 
 
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
 	file_i_o();
 
 	clock_t start, end;
     start = clock();
 
-	w(t){
+	
+    /*int n;
+    cin >> n;
 
-	/*  Write Code Here  */
+    vector<int> nums;
 
-	}
+    for(int i = 0; i < n; i++){
+    	cin >> nums[i];
+    }
+
+    Solution ans;
+
+    vector<int> result;
+
+    for(int i = 0; i < n; i++){
+    	result[i] = ans.countSmaller(nums);
+    }
+
+    for(int i = 0; i < n; i++){
+    	cout << result[i] << endl;
+    }*/
+
 
 	end = clock();
 	

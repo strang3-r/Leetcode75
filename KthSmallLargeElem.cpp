@@ -40,55 +40,38 @@ void file_i_o(){
 }
 
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
-public:
-    ListNode* partition(ListNode* head, int x) {
-        if(head == nullptr){
-        	return NULL;
-        }
-        ListNode* smallerEle = new ListNode(-1);
-        ListNode* greaterEle = new ListNode(-1);
-        smallerEle -> next = head;
-        greaterEle -> next = head;
+vector<int> kthSmallLarge(vector<int> &arr, int n, int k) {
+	// Write your code here.
+	vector<int> result(2);
 
-         ListNode* smallerEleHead = smallerEle;
-         ListNode* greaterEleHead = greaterEle;
+	// Min_Heap
+	priority_queue<int, vector<int>, greater<int>> min_heap(arr.begin(), arr.end());
 
-         while(head != nullptr) {
-         	if(head->val < x) {
-         		smallerEle -> next = head;
-	         	smallerEle = smallerEle -> next;
-         	}
-         	else {
-         		greaterEle -> next = head;
-         		greaterEle = greaterEle->next;
-         	}
-         	head = head -> next;
-         }
+	// pop from min_heap k-1 times
 
-         greaterEle -> next = nullptr;
-         smallerEle -> next = greaterEleHead -> next;
+	for(int i = 1; i < k; i++){
+		min_heap.pop();
+	}
 
-         return smallerEleHead->next;
-    }
-};
+	result[0] = min_heap.top();
+
+	// Max_Heap
+
+	priority_queue<int> max_heap(arr.begin(), arr.end());
+
+	for(int i = 1; i < k; i++){
+		max_heap.pop();
+	} 
+
+	result[1] = max_heap.top();
+
+	return result;
+}
 
 
 
 
-
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
 	file_i_o();
 
