@@ -44,38 +44,23 @@ void file_i_o(){
 
 class Solution {
 public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+       long long sum = 0;
+       int len = INT_MAX;
 
-	bool isValid(vector<vector<int>> &image, int i, int j, int n, int m, int color) {
-		if(i >= 0 and i < n and j >= 0 and j < m and image[i][j] == color)
-			return true;
+       int left = 0;
 
-		return false;
-	}
+       for(int i = 0; i < nums.size(); i++) {
+       		sum += nums[i];
+       		if(sum >= target) len = min(len, i+1);
+       		while(left < nums.size() and (sum - nums[left]) >= target) {
+       			sum -= nums[left];
+       			left++;
+       			len = min(len, i-left+1);
+       		}
+       } 
 
-	void floodFillRec(vector<vector<int>> &image, int sr, int sc, int n, int m, int color, int newColor) {
-		image[sr][sc] = newColor;
-
-		if(isValid(image, sr+1, sc, n, m, color))
-			floodFillRec(image, sr+1, sc, n, m, color, newColor);
-		if(isValid(image, sr-1, sc, n, m, color))
-			floodFillRec(image, sr-1, sc, n, m, color, newColor);
-		if(isValid(image, sr, sc+1, n, m, color))
-			floodFillRec(image, sr, sc+1, n, m, color, newColor);
-		if(isValid(image, sr, sc-1, n, m, color))
-			floodFillRec(image, sr, sc-1, n, m, color, newColor);
-	}
-
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-  		int n = image.size();
-  		int m = image[0].size();
-
-  		int color = image[sr][sc];
-
-  		if(color == newColor) return image;
-
-  		floodFillRec(image, sr, sc, n, m, color, newColor);
-
-  		return image;
+       return (len == INT_MAX) ? 0 : len;
     }
 };
 

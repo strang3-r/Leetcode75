@@ -44,39 +44,53 @@ void file_i_o(){
 
 class Solution {
 public:
+  //   int findPeakElement(vector<int>& nums) { //O(N)
+		// int n = nums.size();
 
-	bool isValid(vector<vector<int>> &image, int i, int j, int n, int m, int color) {
-		if(i >= 0 and i < n and j >= 0 and j < m and image[i][j] == color)
-			return true;
+		// if(n == 1) return 0;
 
-		return false;
+		// else if(n == 2) {
+		// 	int x = (nums[0] >= nums[1]) ? 0 : 1;
+		// 	return x;
+		// }
+
+		// else {
+		// 	if(nums[0] >= nums[1]) return 0;
+
+		// 	if(nums[n-1] >= nums[n-2]) return n-2;
+
+		// 	for(int i = 0; i < n-1; i++) {
+		// 		if(arr[i] >= arr[i-1] and arr[i] >= arr[i+1]) return i;
+		// 	}
+		// }
+
+  //   }
+
+	int findPeakElement(vector<int>& nums) {
+		int n = nums.size();
+		int low = 0;
+		int high = n-1;
+
+		if(nums.size() == 1) return 0;
+
+		while(low <= high) {
+			int mid = low + (high - low) / 2;
+
+			if(mid == 0 or nums[mid] >= nums[mid-1] and (mid == nums.size()-1 or nums[mid] >= nums[mid+1])) {
+				return mid;
+			}
+
+			else if(nums[mid] <= nums[mid+1]) {
+				low = mid + 1;
+			}
+			else {
+				high = mid - 1;
+			}
+		}
+
+		return -1;
 	}
 
-	void floodFillRec(vector<vector<int>> &image, int sr, int sc, int n, int m, int color, int newColor) {
-		image[sr][sc] = newColor;
-
-		if(isValid(image, sr+1, sc, n, m, color))
-			floodFillRec(image, sr+1, sc, n, m, color, newColor);
-		if(isValid(image, sr-1, sc, n, m, color))
-			floodFillRec(image, sr-1, sc, n, m, color, newColor);
-		if(isValid(image, sr, sc+1, n, m, color))
-			floodFillRec(image, sr, sc+1, n, m, color, newColor);
-		if(isValid(image, sr, sc-1, n, m, color))
-			floodFillRec(image, sr, sc-1, n, m, color, newColor);
-	}
-
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-  		int n = image.size();
-  		int m = image[0].size();
-
-  		int color = image[sr][sc];
-
-  		if(color == newColor) return image;
-
-  		floodFillRec(image, sr, sc, n, m, color, newColor);
-
-  		return image;
-    }
 };
 
 
@@ -89,11 +103,21 @@ int main(int argc, char const *argv[]) {
 	clock_t start, end;
     start = clock();
 
-	w(t){
+	
 
-	/*  Write Code Here  */
+    int n;
+    cin >> n;
 
-	}
+    vector<int> nums(n);
+
+    for(int i = 0; i < n; i++) {
+    	cin >> nums[i];
+    }
+
+    Solution ans;
+
+    cout << ans.findPeakElement(nums);
+
 
 	end = clock();
 	

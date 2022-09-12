@@ -44,38 +44,27 @@ void file_i_o(){
 
 class Solution {
 public:
+	bool sorted(vector<int>& a, vector<int>& b) {
+		if(a[0] == b[0]) return a[1] > b[1];
 
-	bool isValid(vector<vector<int>> &image, int i, int j, int n, int m, int color) {
-		if(i >= 0 and i < n and j >= 0 and j < m and image[i][j] == color)
-			return true;
-
-		return false;
+		return a[0] < b[0];
 	}
 
-	void floodFillRec(vector<vector<int>> &image, int sr, int sc, int n, int m, int color, int newColor) {
-		image[sr][sc] = newColor;
+    int numberOfWeakCharacters(vector<vector<int>>& properties) {
+        sort(properties.begin(), properties.end(), sorted);
+        int ans = 0, maxDiffVal = INT_MIN;
 
-		if(isValid(image, sr+1, sc, n, m, color))
-			floodFillRec(image, sr+1, sc, n, m, color, newColor);
-		if(isValid(image, sr-1, sc, n, m, color))
-			floodFillRec(image, sr-1, sc, n, m, color, newColor);
-		if(isValid(image, sr, sc+1, n, m, color))
-			floodFillRec(image, sr, sc+1, n, m, color, newColor);
-		if(isValid(image, sr, sc-1, n, m, color))
-			floodFillRec(image, sr, sc-1, n, m, color, newColor);
-	}
+        int n = properties.size();
+        for(int i = n-1; i >= 0; i--) {
+			if(properties[i][1] < maxDiffVal) {
+				ans++;
+			}        
+			if(properties[i][1] > maxDiffVal) {
+				maxDiffVal = properties[i][1];
+			}	
+        }
 
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-  		int n = image.size();
-  		int m = image[0].size();
-
-  		int color = image[sr][sc];
-
-  		if(color == newColor) return image;
-
-  		floodFillRec(image, sr, sc, n, m, color, newColor);
-
-  		return image;
+        return ans;
     }
 };
 

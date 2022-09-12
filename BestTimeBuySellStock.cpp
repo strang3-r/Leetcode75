@@ -44,38 +44,64 @@ void file_i_o(){
 
 class Solution {
 public:
+	int findMaxProfit(int i, int canBuy, int k, vector<int>& prices, vector<vector<vector<int>>>& dp) {
+		if(k == 0) return 0;
+		if(i == prices.size()) return 0;
 
-	bool isValid(vector<vector<int>> &image, int i, int j, int n, int m, int color) {
-		if(i >= 0 and i < n and j >= 0 and j < m and image[i][j] == color)
-			return true;
+		int maxProfit = 0;
 
-		return false;
+		if(dp[i][canBuy][k] != -1) return dp[i][canBuy][k];
+
+		if(canBuy) {
+			int buy = -prices[i] + findMaxProfit(i+1, 0, k, prices, dp);
+			int notBuy = 0 + findMaxProfit(i+1, 1, k, prices, dp);
+			maxProfit = max(buy, notBuy);
+		}
+		else {
+			int sell = prices[i] + findMaxProfit(i+1, 1, k-1, prices, dp);
+			int notSell = 0 + findMaxProfit(i+1, 0, k, prices, dp);
+			maxProfit = max(sell, notSell);
+		}
+
+		return maxProfit;
 	}
 
-	void floodFillRec(vector<vector<int>> &image, int sr, int sc, int n, int m, int color, int newColor) {
-		image[sr][sc] = newColor;
+    int maxProfit(int k, vector<int>& prices) {
+    	vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(2, vector<int>(k+1, -1)));
+    	return findMaxProfit(0, 1, k, prices, dp);
+    }
+};
 
-		if(isValid(image, sr+1, sc, n, m, color))
-			floodFillRec(image, sr+1, sc, n, m, color, newColor);
-		if(isValid(image, sr-1, sc, n, m, color))
-			floodFillRec(image, sr-1, sc, n, m, color, newColor);
-		if(isValid(image, sr, sc+1, n, m, color))
-			floodFillRec(image, sr, sc+1, n, m, color, newColor);
-		if(isValid(image, sr, sc-1, n, m, color))
-			floodFillRec(image, sr, sc-1, n, m, color, newColor);
-	}
 
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-  		int n = image.size();
-  		int m = image[0].size();
 
-  		int color = image[sr][sc];
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+		int n = prices.size();
+		int tt = k;
 
-  		if(color == newColor) return image;
+		vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(2, vector<int>(k+1, 0)));
 
-  		floodFillRec(image, sr, sc, n, m, color, newColor);
+		for(int i = n-1; i >= 0; i--) {
+			for(int canBuy = 0; canBuy <= 1; canBuy++) {
+				for(int k = 1; k <= tt; k++) {
+					int maxProfit = 0;
+					if(canBuy) {
+						int buy = -prices[i] + dp[i+1][0][k];
+						int notBuy = 0 + dp[i+1][1][k];
+						maxProfit = max(buy, notBuy);
+					}
+					else {
+						int sell = prices[i] + dp[i+1][1][k-1];
+						int notSell = 0 + dp[i+1][0][k];
+						maxProfit = max(sell, notSell);
+					} 
+					dp[i][canBuy][k] = maxProfit;
+				}
+			}
+		}  
 
-  		return image;
+		return dp[0][1][tt];  
     }
 };
 

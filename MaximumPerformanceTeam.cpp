@@ -44,38 +44,32 @@ void file_i_o(){
 
 class Solution {
 public:
+    int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
+		vector<pair<int, int>> v;
 
-	bool isValid(vector<vector<int>> &image, int i, int j, int n, int m, int color) {
-		if(i >= 0 and i < n and j >= 0 and j < m and image[i][j] == color)
-			return true;
+		priority_queue<int, vector<int>, greater<int>> pq;
 
-		return false;
-	}
+		for (int i = 0; i < n; i++) {
+			v.push_back({efficiency[i], speed[i]});
+		}        
 
-	void floodFillRec(vector<vector<int>> &image, int sr, int sc, int n, int m, int color, int newColor) {
-		image[sr][sc] = newColor;
+		long sum = 0, ans = 0;
 
-		if(isValid(image, sr+1, sc, n, m, color))
-			floodFillRec(image, sr+1, sc, n, m, color, newColor);
-		if(isValid(image, sr-1, sc, n, m, color))
-			floodFillRec(image, sr-1, sc, n, m, color, newColor);
-		if(isValid(image, sr, sc+1, n, m, color))
-			floodFillRec(image, sr, sc+1, n, m, color, newColor);
-		if(isValid(image, sr, sc-1, n, m, color))
-			floodFillRec(image, sr, sc-1, n, m, color, newColor);
-	}
+		sort(v.begin(), v.end());
 
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-  		int n = image.size();
-  		int m = image[0].size();
+		for(auto i = n-1; i >= 0; i--) {
+			sum += v[i].second;
+			pq.push(v[i].second);
+			if(pq.size() > k) {
+				sum -= pq.top();
+				pq.pop();
+			}
 
-  		int color = image[sr][sc];
+			ans = max(ans, sum*v[i].first);
+		}
 
-  		if(color == newColor) return image;
+		return ans%1000000007;
 
-  		floodFillRec(image, sr, sc, n, m, color, newColor);
-
-  		return image;
     }
 };
 
