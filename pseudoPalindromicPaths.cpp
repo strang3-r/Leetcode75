@@ -42,37 +42,50 @@ void file_i_o(){
 
 
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    int bagOfTokensScore(vector<int>& tokens, int power) {
-       sort(tokens.begin(), tokens.end());
-       int score = 0;
-       int ans = 0;
 
-       int i = 0, j = tokens.size()-1;
+	void dfs(TreeNode *root, vector<int>freq, int& cnt) {
+		if(root == NULL) return;
 
-       while(i <= j) {
-       		if(tokens[i] <=  power) {
-       			score += 1;
-       			if(ans < score) {
-       				ans = score;
-       			}
+		freq[root->val]++;
 
-       			power -= tokens[i];
-       			i++;
-       		}
-       		else if(score > 0) {
-       			power += tokens[j];
-       			score -= 1;
-       			j--;
-       		}
+		dfs(root -> left, freq, cnt);
 
-       		else {
-       			break;
-       		}
-       }
+		if(root -> left == NULL and root -> right == NULL) {
+			int oddCnt = 0;
+			for(auto x: freq) {
+				if(x%2 == 1) {
+					oddCnt++;
+				}
 
-       return ans;  
+			}
+
+			if(oddCnt <= 1) {
+				cnt++;
+			}
+		}
+
+		dfs(root -> right, freq, cnt);
+	}
+
+    int pseudoPalindromicPaths (TreeNode* root) {
+     	vector<int>freq(10, 0);
+     	int cnt = 0;
+     	dfs(root, freq, cnt);
+
+     	return cnt;   
     }
 };
 

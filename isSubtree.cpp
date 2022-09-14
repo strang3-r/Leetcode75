@@ -42,37 +42,57 @@ void file_i_o(){
 
 
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    int bagOfTokensScore(vector<int>& tokens, int power) {
-       sort(tokens.begin(), tokens.end());
-       int score = 0;
-       int ans = 0;
 
-       int i = 0, j = tokens.size()-1;
+	bool ans = false;
 
-       while(i <= j) {
-       		if(tokens[i] <=  power) {
-       			score += 1;
-       			if(ans < score) {
-       				ans = score;
-       			}
+	bool match(TreeNode* root, TreeNode* subRoot) {
+		if(root != nullptr and subRoot != nullptr) { 
+			bool a = match(root -> left, subRoot -> left);
+			bool b = match(root -> right, subRoot -> right);
 
-       			power -= tokens[i];
-       			i++;
-       		}
-       		else if(score > 0) {
-       			power += tokens[j];
-       			score -= 1;
-       			j--;
-       		}
+			if((root -> val == subRoot -> val) and a and b) return true;
 
-       		else {
-       			break;
-       		}
-       }
+			else return false;
+		}
 
-       return ans;  
+		else if(root == nullptr and subRoot == nullptr) return true;
+
+		else return false;
+	}
+
+	void inorder(TreeNode* root, TreeNode* subRoot) {
+		if(root != nullptr) {
+			inorder(root -> left, subRoot);
+
+			bool x = match(root, subRoot);
+
+			if(x) {
+				ans = x;
+			}
+
+			inorder(root -> right, subRoot);
+
+		}
+
+	}
+
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+		   inorder(root, subRoot);
+
+		   return ans;     
     }
 };
 

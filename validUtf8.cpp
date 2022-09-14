@@ -44,35 +44,32 @@ void file_i_o(){
 
 class Solution {
 public:
-    int bagOfTokensScore(vector<int>& tokens, int power) {
-       sort(tokens.begin(), tokens.end());
-       int score = 0;
-       int ans = 0;
+    bool validUtf8(vector<int>& data) {
+		int nextRbytes = 0;
 
-       int i = 0, j = tokens.size()-1;
+		for(auto x : data) {
+			if(nextRbytes == 0) {
+				if((x >> 5) == 0b110) // number of byte 2
+					nextRbytes = 1;
+				else if((x >> 4) == 0b1110) //number of byte 3
+					nextRbytes = 2;
+				else if((x >> 3) == 0b11110) // number of byte 4
+					nextRbytes = 3;
+				else if((x >> 7) != 0b0) // number of byte 1
+					return false;
+			}
 
-       while(i <= j) {
-       		if(tokens[i] <=  power) {
-       			score += 1;
-       			if(ans < score) {
-       				ans = score;
-       			}
+			else {
+				if((x >> 6) != 0b10) return false;
+				nextRbytes--;
+			}
+		}
 
-       			power -= tokens[i];
-       			i++;
-       		}
-       		else if(score > 0) {
-       			power += tokens[j];
-       			score -= 1;
-       			j--;
-       		}
+		if(nextRbytes == 0) {
+			return true;
+		}        
 
-       		else {
-       			break;
-       		}
-       }
-
-       return ans;  
+		return false;
     }
 };
 

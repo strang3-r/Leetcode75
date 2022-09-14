@@ -42,39 +42,58 @@ void file_i_o(){
 
 
 
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
 class Solution {
 public:
-    int bagOfTokensScore(vector<int>& tokens, int power) {
-       sort(tokens.begin(), tokens.end());
-       int score = 0;
-       int ans = 0;
+    Node* connect(Node* root) {
+        if(root == NULL) return NULL;
+        queue<Node*>q;
+        q.push(root);
 
-       int i = 0, j = tokens.size()-1;
+        while(not q.empty()) {
+        	int n = q.size();
 
-       while(i <= j) {
-       		if(tokens[i] <=  power) {
-       			score += 1;
-       			if(ans < score) {
-       				ans = score;
-       			}
+        	Node* prev = NULL;
+        	for(int i = 0; i < n; i++) {
+        		auto top = q.front();
 
-       			power -= tokens[i];
-       			i++;
-       		}
-       		else if(score > 0) {
-       			power += tokens[j];
-       			score -= 1;
-       			j--;
-       		}
+        		q.pop();
 
-       		else {
-       			break;
-       		}
-       }
+        		top -> next = prev;
 
-       return ans;  
+        		prev = top;
+
+        		if(top -> right) {
+        			q.push(top -> right);
+        		}
+
+        		if(top -> left) {
+        			q.push(top -> left);
+        		}
+        	} 
+        }
+
+        return root;
     }
 };
+
 
 
 

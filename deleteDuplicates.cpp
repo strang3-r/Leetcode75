@@ -42,37 +42,41 @@ void file_i_o(){
 
 
 
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
-    int bagOfTokensScore(vector<int>& tokens, int power) {
-       sort(tokens.begin(), tokens.end());
-       int score = 0;
-       int ans = 0;
+    ListNode* deleteDuplicates(ListNode* head) {
 
-       int i = 0, j = tokens.size()-1;
+    	ListNode* dummy = new ListNode(0, head);
 
-       while(i <= j) {
-       		if(tokens[i] <=  power) {
-       			score += 1;
-       			if(ans < score) {
-       				ans = score;
-       			}
+    	ListNode* prev = dummy;
 
-       			power -= tokens[i];
-       			i++;
-       		}
-       		else if(score > 0) {
-       			power += tokens[j];
-       			score -= 1;
-       			j--;
-       		}
+    	while(head != nullptr) {
 
-       		else {
-       			break;
-       		}
-       }
+	    	if(head -> next != nullptr and head -> val == head -> next -> val) {
+	    		while(head -> next != nullptr and head -> val == head -> next -> val) {
+	    			head = head -> next;
+	    		}
+	    		prev -> next = head -> next;
+	    	}
+    		else {
+    			prev = prev -> next;
+    		}
 
-       return ans;  
+    		head = head -> next;
+    	}
+
+    	return dummy -> next;		 
+
     }
 };
 
