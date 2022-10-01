@@ -42,29 +42,33 @@ void file_i_o(){
 
 
 
-long long maxSubarraySum(int arr[], int n)
-{
-    /*
-        Don't write main().
-        Don't read input, it is passed as function argument.    
-        No need to print anything.
-        Taking input and printing output is handled automatically.
-    */
 
-	long long curr = 0;
-	long long MaxSum = 0;
+int flipBits(int* arr, int n) {
+
+	 int count = 0;
+	 int MaxCount = 0;
+	 int x = 0;
 
 	for(int i = 0; i < n-1; i++) {
-		curr += arr[i];
+		if(arr[i] == 0) {
+			count++;
+		}
 
-		MaxSum = max(MaxSum, curr);
-		if(curr < 0) curr = 0;
+		else {
+			count--;
+			x++;
+		}
+
+		if(count > MaxCount) MaxCount = count;
+		if(count < 0) count = 0;
 	}
 
 
-	return MaxSum;
+	return MaxCount + x;
+
 
 }
+
 
 
 
@@ -75,18 +79,16 @@ int main(int argc, char const *argv[]) {
 	clock_t start, end;
     start = clock();
 
+	int n;
+	cin >> n;
+
+	int arr[n];
 	
-    long long n;
-    cin >> n;
+	for(int i = 0; i < n; i++) {
+		cin >> arr[i];
+	}
 
-    int arr[n];
-
-    for(int i = 0; i < n; i++) {
-    	cin >> arr[i];
-    }
-
-    cout << maxSubarraySum(arr, n) << endl;
-
+	cout << flipBits(arr, n) << endl;
 
 
 	end = clock();
