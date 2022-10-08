@@ -1,0 +1,58 @@
+//Brutefoce O(N^3) Solution (Time Limit Exceeded):
+
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        int minDiff = INT_MAX;
+        int sum, n = nums.size();
+            for(int i = 0; i < n; i++)
+            {
+                    for(int j = i + 1; j < n; j++)
+                    {
+                            for(int k = j + 1; k < n; k++)
+                            {
+                                    int currSum = nums[i] + nums[j] + nums[k];
+                                    int newDiff = abs(target - currSum);
+                                    if(newDiff < minDiff) minDiff = newDiff, sum = currSum;
+                            }
+                    }
+            }
+
+
+            return sum;
+    }
+};
+//Optimized O(N^2) Solution (Accepted):
+
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        int minDiff = INT_MAX;
+        int sum, n = nums.size();
+            sort(nums.begin(), nums.end());
+
+
+                   for(int i = 0; i < n - 2; i++)
+                    {
+                            int s = i + 1, e = n - 1;
+                            while(s < e)
+                            {
+
+                                    int currSum = nums[i] + nums[s] + nums[e];
+
+                                    int diff = currSum - target;
+                                    if(currSum > target)e--;
+                                    else if(currSum < target)s++;
+                                    else return target;
+                                    if(abs(currSum - target) < minDiff)
+                                    {
+                                            minDiff = abs(currSum - target);
+                                            sum = currSum;
+                                    }
+                            }
+                    }
+
+
+            return sum;
+    }
+};
