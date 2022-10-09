@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Solution {
+public:
+  bool detect(int node,vector<int>adj[],int vis[],int pathVis[],int check[])
+    {
+        vis[node]=1;
+        pathVis[node]=1;
+        check[node]=0;
+        //traversing all adjacent nodes
+        for(auto adjacentNode:adj[node])
+        {
+            //when the node is not visited
+            if(!vis[adjacentNode])
+            {
+                if(detect(adjacentNode,adj,vis,pathVis,check))
+                {
+                    check[node]=0;
+                    return true;
+                }
+            }
+            //if the node has been previously visited
+            //but it has to be visited on the same path
+            else if(pathVis[adjacentNode])
+            {
+                check[node]=0;
+                return true;
+            }
+        }
+        check[node]=1;
+        pathVis[node]=0;
+        return false;
+    }
+    vector<int> eventualSafeNodes(int V, vector<int> adj[]) 
+    {
+        int vis[V]={0};
+        int check[V]={0};
+        int pathVis[V]={0};
+        vector<int>ans;
+        for(int i = 0 ; i < V ; i++)
+        {
+            if(!vis[i])
+            {
+                detect(i,adj,vis,pathVis,check);
+            }
+        }
+        for(int i = 0 ; i <V ; i++)
+        {
+            if(check[i])
+            {
+                ans.push_back(i);
+            }
+        }
+        return ans;
+    }
+};
+int main(){
+  int t;
+  cin>>t;
+  while(t--)
+  {
+    int Vertices,Edges;
+    cin>>Vertices>>Edges;
+    vector<int>adj[Vertices];
+    
+    for(int i = 0 ; i < Edges ; i++)
+    {
+        int u,v;cin>>u>>v;
+        adj[u].push_back(v);
+    }
+    
+    Solution obj;
+    vector<int>safeNodes=obj.eventualSafeNodes(V,adj);
+    for(auto i:safeNodes){
+      cout<<i<<" ";
+    }
+    cout<<endl;
+  }
+}
