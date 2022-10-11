@@ -1,0 +1,29 @@
+#include <stdio.h>
+void main()
+{   char ch;
+    float p,q;
+    
+    printf("enter the type of operation you want to perform=");
+    scanf("%c",&ch);
+    printf(" enter the two numbers ");
+    scanf("%f %f",&p,&q);
+
+    if(ch=='+')
+   {
+       printf("p +q=%f",p+q);
+   }
+   else if(ch=='-')
+   {
+        printf("p -q=%f",p-q);
+   }
+   else if(ch=='*')
+   {
+        printf("p*q=%f",p*q);
+   }
+   else if(ch=='/')
+   {
+       printf(" p/q=%f",p/q); 
+   }
+  
+  
+}
