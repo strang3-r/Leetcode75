@@ -1,0 +1,66 @@
+class Solution {
+public:
+    vector<int> parent, rank;
+    int find(int p) {
+        if (parent[p] == -1) return p;
+          return parent[p] = find(parent[p]);
+    }
+    bool UNION(int p, int q) {
+        int i = find(p);
+        int j = find(q);
+        if (i==j) return false;
+        if (rank[i] < rank[j]){ 
+          parent[i] = j;  
+          rank[j]+=rank[i];  
+        }
+        else {
+            parent[j] = i;
+            rank[i]+=rank[j];
+        } 
+        return true;
+    }
+    int numberOfGoodPaths(vector<int>& vals, vector<vector<int>>& edges) {
+        int n=vals.size(),goodPaths=0;
+        parent.resize(n,-1);
+        rank.resize(n,1);
+        
+        vector<vector<int>> adj(n);
+        map<int, vector<int>> sameValues;//Map is req bcz we have to start with smaller values else grp will contain larger values as well 
+        
+         for (int i = 0; i < n; i++) {
+            sameValues[vals[i]].push_back(i);
+        }
+        
+        for (auto &e : edges) {
+            int u = e[0], v = e[1];
+            
+            if (vals[u] >= vals[v]) {
+                adj[u].push_back(v);
+            } else if (vals[v] >= vals[u]) {
+                adj[v].push_back(u);
+            }
+        }
+        
+        for(auto &[value, allNodes] : sameValues){
+            for(auto it:allNodes){
+                for(auto itr:adj[it])
+                    UNION(it,itr);
+            }
+        
+        unordered_map<int, int> group;
+        
+        for (int u : allNodes) {
+                group[find(u)]++;
+            }
+         
+        goodPaths += allNodes.size();
+        
+        for(auto it:group){
+            goodPaths+=(it.second*(it.second-1))/2;
+            }
+        
+        }
+        
+        return goodPaths;
+    }
+};
