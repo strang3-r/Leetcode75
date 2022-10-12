@@ -1,0 +1,55 @@
+class Solution {
+public:
+    void swap(char&a,char&b)
+    {
+        char c=a;
+        a=b;
+        b=c;
+    }
+    int slidingPuzzle(vector<vector<int>>& board) {
+        string expected="123450";
+        string cur="";
+        vector<vector<int>> swaps={{1,3},{0,2,4},{1,5},{0,4},{1,3,5},{2,4}};
+        int z;
+        
+        for(int i=0;i<2;i++)
+        for(int j=0;j<3;j++){
+            cur+=board[i][j]+'0';
+            if(board[i][j]==0)
+                z=(i*3)+j;
+        }
+
+        queue<pair<string,int>> q;
+        unordered_map<string,bool> visited;
+        visited[cur]=true;
+        q.push({cur,z});
+        int level=0;
+
+        while(!q.empty())
+        {
+              int n=q.size();
+            for(int i=0;i<n;i++)
+            {
+                auto p=q.front();
+                q.pop();
+                
+                string st=p.first;
+                int sw=p.second;
+                
+                if(st==expected)
+                    return level;
+                for(auto it:swaps[sw])
+                {
+                    string s=st;    
+                    swap(s[it],s[sw]);
+                    if(!visited[s]){
+                        q.push({s,it});
+                        visited[s]=true;
+                    }
+                }
+            }
+         level++;
+        }
+    return -1;    
+    }
+};
