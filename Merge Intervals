@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& interval) {
+       vector<vector<int>> res;
+        if(interval.size()==0)
+        {
+            return res;
+        }
+        int n=interval.size();
+        sort(interval.begin(),interval.end());
+        res.push_back(interval[0]);
+        int j=0;
+        for(int i=1;i<n;i++)
+        {
+            if(res[j][1]>=interval[i][0])
+            {
+                res[j][1]=max(res[j][1],interval[i][1]);
+            }
+            else
+            {
+                j++;
+                res.push_back(interval[i]);
+            }
+        }
+        return res;
+    }
+};
