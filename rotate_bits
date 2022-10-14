@@ -1,0 +1,29 @@
+#include <bits/stdc++.h> 
+using namespace std;
+
+int INT_BITS = 32;
+
+
+int leftRotate(int n, unsigned int d) { 
+    return (n << d)|(n >> (INT_BITS - d)); 
+} 
+  
+
+int rightRotate(int n, unsigned int d) { 
+    return (n >> d)|(n << (INT_BITS - d)); 
+} 
+
+int main() { 
+  
+    int n = 4; 
+
+   
+    int d = 2; 
+
+ 
+    cout << "Left Rotation of " << n << " by " << d << " is " << leftRotate(n, d)<<"\n";
+ 
+    cout << "Right Rotation of " << n <<" by " << d << " is "<< rightRotate(n, d); 
+    
+    return 0;
+} 
