@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>On Off Bulb</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <div class="bulb center">
+          <div class="inside center"></div>
+          <div class="lower center"></div>
+        </div>
+        <button id="btn" class="center">ON</button>
+      
+    <script>
+      let btn = document.getElementById("btn");
+
+      btn.addEventListener("click", () => {
+        if (btn.innerText == "ON") {
+          document.documentElement.style.cssText = "--light-color:#F8D11D";
+          btn.innerText = "OFF";
+        } else {
+          document.documentElement.style.cssText = "--light-color:#94b0ff";
+          btn.innerText = "ON";
+        }
+      });
+    </script>
+  </body>
+</html>
